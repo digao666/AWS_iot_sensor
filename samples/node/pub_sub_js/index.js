@@ -8,6 +8,8 @@ const mqtt = iotsdk.mqtt;
 const TextDecoder = require('util').TextDecoder;
 const yargs = require('yargs');
 const common_args = require('../../util/cli_args');
+const date = new Date()
+
 
 yargs.command('*', false, (yargs) => {
     common_args.add_connection_establishment_arguments(yargs);
@@ -35,6 +37,16 @@ async function execute_session(connection, argv) {
                     const msg = {
                         message: argv.message,
                         sequence: op_idx + 1,
+                        Time: date,
+                        pH: "4.5",//pH is a measurement of the relative concentration of hydrogen ions and hydroxide ions in water.",
+                        EC: "0.59 PPM",//"Electrical conductivity (EC) measures how well a substance can transmit an electrical current.", 
+                        DO: "5%",//"The concentration of dissolved oxygen (DO) in water is extremely important in nature as well as in man’s environment. ", 
+                        Temperature: "30° C",
+                        Turbidity: "50 NTU",//"turbidity is just the cloudiness of water.", 
+                        TDS: "20 mg/L", 
+                        Flow: "10 LPM", 
+                        Level: "30%", 
+
                     };
                     const json = JSON.stringify(msg);
                     connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
